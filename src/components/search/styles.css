@@ -1,0 +1,39 @@
+.search-div{
+    margin-left: 80px;
+    margin-top: 10px;
+    display: flex;
+    width: 600px;
+    height: 35px;
+    display: flex;
+    background-color: red;
+    flex-direction: row;
+}
+.search-icon-div{
+   width: 30px;
+   height: 35px;
+   background-color: beige;
+   display: flex;
+   align-items: center;
+   justify-content: end;
+}
+.search-bar-div{
+    width: 400px;
+    background-color: aqua;
+    height: 35px;
+    display: flex;
+    flex-direction: row;
+    z-index: 50;
+}
+.search-bar{
+    width: 400px;
+    height: auto;
+    border: 0;
+    outline: none;
+    /* background: transparent; */
+    font-size: 18px;
+}
+.search-cancel{
+    height: auto;
+    width: auto;
+    background-color: blueviolet;
+}
