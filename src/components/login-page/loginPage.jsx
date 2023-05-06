@@ -1,6 +1,5 @@
 import React from "react";
 import './styles.css'
-import SignupPage from "../signup-page";
 import { Link } from "react-router-dom";
 
 function LoginPage() {
@@ -25,7 +24,6 @@ function LoginPage() {
                     </div>
                     <div className="msg-to-signup">
                         <span className="txt1">Don't have an account? </span>
-                        {/* <a href="#">Sign up</a> */}
                         <Link to='/signup'>Sign up</Link>
                     </div>
                 </div>

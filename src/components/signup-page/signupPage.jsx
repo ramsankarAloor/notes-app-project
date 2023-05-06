@@ -24,7 +24,6 @@ function SignupPage() {
                     </div>
                     <div className="msg-to-signup">
                         <span className="txt1">Already have an account? </span>
-                        {/* <a href="#">Login</a> */}
                         <Link to='/login'>Login</Link>
                     </div>
                 </div>
