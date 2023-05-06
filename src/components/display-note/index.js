@@ -1,3 +1,3 @@
-import DisplayNoteHeadings from "./displayNote";
+import DisplayNote from "./displayNote";
 
-export default DisplayNoteHeadings;
+export default DisplayNote;

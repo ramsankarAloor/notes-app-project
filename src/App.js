@@ -1,10 +1,10 @@
 import './App.css';
-import NotesApp from './components/notes-app';
+import LandingLayout from './components/landing-layout';
 
 function App() {
   return (
     <div className="App">
-      <NotesApp />
+      <LandingLayout />
     </div>
   );
 }

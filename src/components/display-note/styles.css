@@ -1,9 +1,121 @@
-.right-body{
+.right-body {
     width: 100%;
-    height: 100%;
-    background-color: violet;
+    height: calc(100% - 167px);
+    /* background-color: violet; */
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
+    gap: 30px;
+    /* padding-top: 100px; */
+    padding: 40px;
+}
+
+h3 {
+    font-size: 20px;
+    line-height: 30px;
+}
+
+p {
+    font-size: 17px;
+    line-height: 28px;
+}
+
+.note {
+    background-color: #F9F9F9;
+    padding: 25px;
+    width: 310px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 18px;
+    row-gap: 3px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15), 0px 4px 6px rgba(0, 0, 0, 0.10);
+}
+
+.note-title {
+    height: 30px;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.note-body {
+    height: 203px;
+    /* overflow: hidden; */
+    display: -webkit-box;
+    -webkit-line-clamp: 7;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.overlay {
+    position: fixed;
+    z-index: 50;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Semi-transparent black */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-note {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    min-height: 400px;
+    width: 500px;
+    padding: 28px;
+    /* padding-bottom: 50px; */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+[contenteditable] {
+    outline: 0px solid transparent;
+}
+
+.popup-title-div {
+    min-height: 30px;
+}
+
+.popup-title-div:empty:before {
+    content: attr(data-placeholder);
+    color: #aaa;
 }
 
 
+.popup-body-div {
+    height: 300px;
+}
+
+.close-button-div {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.close-button {
+    background-color: #bbbbbb;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.close-button:hover {
+    background-color: #999999;
+}

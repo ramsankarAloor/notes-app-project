@@ -4,6 +4,10 @@
   height: 100%;
 }
 
+h3, p {
+  margin: 0;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
