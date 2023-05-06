@@ -2,16 +2,17 @@
     margin-left: 80px;
     margin-top: 10px;
     display: flex;
-    width: 600px;
-    height: 35px;
     display: flex;
-    background-color: red;
     flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgb(216, 216, 216);
+    padding-left: 10px;
+    padding-right: 10px;
 }
 .search-icon-div{
    width: 30px;
    height: 35px;
-   background-color: beige;
    display: flex;
    align-items: center;
    justify-content: end;
@@ -19,7 +20,7 @@
 .search-bar-div{
     width: 400px;
     background-color: aqua;
-    height: 35px;
+    height: 30px;
     display: flex;
     flex-direction: row;
     z-index: 50;
@@ -29,11 +30,15 @@
     height: auto;
     border: 0;
     outline: none;
-    /* background: transparent; */
     font-size: 18px;
 }
 .search-cancel{
-    height: auto;
-    width: auto;
-    background-color: blueviolet;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.search-cancel:hover{
+    cursor: pointer;
 }
