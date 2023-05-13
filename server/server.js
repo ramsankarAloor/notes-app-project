@@ -1,4 +1,4 @@
-import{handleGetNotes, handlePostNote, handleDeleteNote, handleUpdateNote} from "./handler.js"
+import{handleGetNotes, handleCreateNote, handleDeleteNote, handleUpdateNote} from "./handler.js"
 import  express  from "express";
 const app = express();
 
@@ -19,7 +19,7 @@ app.get('/notes', async function(req, res){
 })
 
 app.post('/note', async function(req, res){
-    const responseObject = await handlePostNote(req)
+    const responseObject = await handleCreateNote(req)
     if(responseObject.error){
         res.json({error : responseObject})
     }
@@ -30,8 +30,6 @@ app.delete('/note/:id', async function(req, res){
     const responseObject = await handleDeleteNote(req)
     if(responseObject.error){
         res.json({error : responseObject})
-    }else if(responseObject.msg){
-        res.json( responseObject)
     }else{
         res.json({ data : responseObject})
     }
@@ -42,8 +40,6 @@ app.put('/note/:id', async function(req, res){
     const responseObject = await handleUpdateNote(req)
     if(responseObject.error){
         res.json({error : responseObject})
-    }else if(responseObject.msg){
-        res.json( {error : responseObject})
     }else{
         res.json({ data : responseObject})
     }

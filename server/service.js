@@ -1,12 +1,12 @@
-import { getNotesFromStore, postNoteToStore, deleteNoteFromStore, updateNoteInStore } from "./store.js"
+import { getNotesFromStore, createNoteToStore, deleteNoteFromStore, updateNoteInStore } from "./store.js"
 
 export async function getNotes(){
     let notes = await getNotesFromStore()
     return notes
 }
 
-export async function postNote(obj){
-   return postNoteToStore(obj)
+export async function createNote(note){
+   return createNoteToStore(note)
 }
 
 export async function deleteNote(id){ 
@@ -14,6 +14,6 @@ export async function deleteNote(id){
 }
 
 
-export async function updateNote(obj){
-    return updateNoteInStore(obj)
+export async function updateNote(id, note){
+    return updateNoteInStore(id, note)
 }

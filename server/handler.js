@@ -1,16 +1,18 @@
-import { postNote, getNotes, deleteNote, updateNote } from "./service.js";
+import { createNote, getNotes, deleteNote, updateNote } from "./service.js";
 
 
 
 export async function handleGetNotes(req){
-    let notes = await getNotes()
+    const notes = await getNotes()
     return notes
 }
 
-export async function handlePostNote(req){
-    const newNote = req.body.body;
-    const newTitle = req.body.title;
-   return postNote({ note : newNote , title : newTitle})
+export async function handleCreateNote(req){
+    const note = {
+        body : req.body.body,
+        title : req.body.title
+    }
+   return createNote(note)
 } 
 
 export async function handleDeleteNote(req){
@@ -20,7 +22,9 @@ export async function handleDeleteNote(req){
 
 export async function handleUpdateNote(req){
     const id = Number(req.params.id)
-    const newNote  = req.body.body
-    const newTitle = req.body.title
-    return updateNote({ id: id, newNote: newNote, newTitle: newTitle})
+    const note = {
+        body : req.body.body,
+        title : req.body.title
+    }
+    return updateNote(id, note)
 }

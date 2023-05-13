@@ -11,7 +11,7 @@ const sequelize = new Sequelize('notes_app', 'postgres', '5454', {
 export async function getNotesFromStore(){
     let result
     try {
-        result = await sequelize.query("select * from notes", { type : Sequelize.QueryTypes.SELECT, raw: true})
+        result = await sequelize.query("select  id, note, title, created_at, updated_at from notes", { type : Sequelize.QueryTypes.SELECT, raw: true})
     } catch (e) {
         result = {error: "error from db", err_msg: e}
     }
@@ -19,13 +19,11 @@ export async function getNotesFromStore(){
 }
 
 
-export async function postNoteToStore(obj){
-    const noteValue = obj.note
-    const titleValue = obj.title
+export async function createNoteToStore(note){
     let result
     try {
-        await sequelize.query(`insert into notes (note, title) values ('${noteValue}', '${titleValue}')`)
-        result = await sequelize.query("select * from notes order by id desc limit 1", { type : Sequelize.QueryTypes.SELECT, raw: true})
+        await sequelize.query(`insert into notes (note, title) values ('${note.body}', '${note.title}')`)
+        result = await sequelize.query("select  id, note, title, created_at, updated_at from notes order by id desc limit 1", { type : Sequelize.QueryTypes.SELECT, raw: true})
     } catch (e) {
         result = {error: "error from db", err_msg: e}
     }
@@ -35,12 +33,12 @@ export async function postNoteToStore(obj){
 export async function deleteNoteFromStore(id) {
     let result
     try {
-        const noteToDelete = await sequelize.query(`select * from notes where id=${id}`, { type : Sequelize.QueryTypes.SELECT, raw: true})
+        const noteToDelete = await sequelize.query(`select id from notes where id=${id}`, { type : Sequelize.QueryTypes.SELECT, raw: true})
         if(noteToDelete.length > 0){
             await sequelize.query(`delete from notes where id =${id}`)
             result = { msg : 'Deletion successful'}
         }else{
-            result = { msg : 'No such note exist'}
+            result = { error : 'No such note exist'}
         }
     } catch (error) {
         result = {error: "error from db", err_msg: error}
@@ -48,16 +46,15 @@ export async function deleteNoteFromStore(id) {
     return result
 }
 
-export async function updateNoteInStore(obj) {
+export async function updateNoteInStore(id, note) {
     let result
     try {
-        const noteToUpdate = await sequelize.query(`select * from notes where id=${obj.id}`, { type : Sequelize.QueryTypes.SELECT, raw: true})
-        console.log(noteToUpdate);
+        const noteToUpdate = await sequelize.query(`select id from notes where id=${id}`, { type : Sequelize.QueryTypes.SELECT, raw: true})
         if(noteToUpdate.length > 0){
-            await sequelize.query(`update notes set note = '${obj.newNote}', title = '${obj.newTitle}', updated_at = NOW() where id = ${obj.id}`)
-            result =  await sequelize.query(`select * from notes where id=${obj.id}`, { type : Sequelize.QueryTypes.SELECT, raw: true})
+            await sequelize.query(`update notes set note = '${note.body}', title = '${note.title}', updated_at = NOW() where id = ${id}`)
+            result =  await sequelize.query(`select id, note, title, created_at, updated_at from notes where id=${id}`, { type : Sequelize.QueryTypes.SELECT, raw: true})
         }else{
-            result = { msg : 'No such note exist'}
+            result = { error : 'No such note exist'}
         }
     } catch (error) {
         result = {error: "error from db", err_msg: error}
