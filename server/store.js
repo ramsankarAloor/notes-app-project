@@ -1,6 +1,7 @@
 
 
 import {Sequelize} from "sequelize"
+import bcrypt, { hash } from 'bcrypt'
 
 const sequelize = new Sequelize('notes_app', 'postgres', '5454', {
     host: 'localhost',
@@ -65,13 +66,19 @@ export async function updateNoteInStore(id, note) {
 export async function verifyUserInStore(user){
     let result
     try {
-        const userMatch = await sequelize.query(`select username, password from users where username='${user.username}' and password='${user.password}'`,  { type : Sequelize.QueryTypes.SELECT, raw: true})
+        const userMatch = await sequelize.query(`select username, password from users where username='${user.username}'`,  { type : Sequelize.QueryTypes.SELECT, raw: true})
         if(userMatch.length>0){
-            result = {msg : 'login success'}
+            const hashCompare = await bcrypt.compare(user.password, userMatch[0].password)
+            if(hashCompare){
+                result = {msg : 'login success'}
+            }else{
+                result = {error : 'wrong password'}
+            }
         }else{
-            result = {error : 'username or password incorrect'}
+            result = {error : 'invalid user'}
         }
     } catch (error) {
+        console.log(error)
         result = {error: "error from db", err_msg: error}
     }
    
@@ -85,7 +92,8 @@ export async function signupToStore(newUser){
         if(match.length > 0){
             result = {error : "username already exist"}
         }else{
-            await sequelize.query(`insert into users (username, password) values ('${newUser.username}', '${newUser.password}')`)
+            const hashedPassword = await bcrypt.hash(newUser.password, 10)
+            await sequelize.query(`insert into users (username, password) values ('${newUser.username}', '${hashedPassword}')`)
             // result = {msg : 'login success'}
             result = await sequelize.query(`select  username, password from users order by id desc limit 1`, { type : Sequelize.QueryTypes.SELECT, raw: true})
         }
