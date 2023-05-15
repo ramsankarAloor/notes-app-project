@@ -1,4 +1,5 @@
-import { getNotesFromStore, createNoteToStore, deleteNoteFromStore, updateNoteInStore } from "./store.js"
+import { verify } from "jsonwebtoken"
+import { getNotesFromStore, createNoteToStore, deleteNoteFromStore, updateNoteInStore, verifyUserInStore, signupToStore } from "./store.js"
 
 export async function getNotes(){
     let notes = await getNotesFromStore()
@@ -16,4 +17,12 @@ export async function deleteNote(id){
 
 export async function updateNote(id, note){
     return updateNoteInStore(id, note)
+}
+
+export async function verifyUser(user){
+    return verifyUserInStore(user)
+}
+
+export async function signup(newUser){
+    return signupToStore(newUser)
 }

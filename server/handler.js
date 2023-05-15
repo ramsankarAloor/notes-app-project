@@ -1,4 +1,5 @@
-import { createNote, getNotes, deleteNote, updateNote } from "./service.js";
+import { verify } from "jsonwebtoken";
+import { createNote, getNotes, deleteNote, updateNote, verifyUser, signup } from "./service.js";
 
 
 
@@ -27,4 +28,18 @@ export async function handleUpdateNote(req){
         title : req.body.title
     }
     return updateNote(id, note)
+}
+
+export async function handleLoginReq(req){
+    const username = req.body.username
+    const password = req.body.password
+    const user = { username : username, password: password}
+    return verifyUser(user)
+}
+
+export async function  handleSignup(req){
+    const username = req.body.username
+    const password = req.body.password
+    const newUser = { username : username, password: password}
+    return signup(newUser)
 }

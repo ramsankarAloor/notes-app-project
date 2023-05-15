@@ -61,3 +61,36 @@ export async function updateNoteInStore(id, note) {
     }
     return result
 }
+
+export async function verifyUserInStore(user){
+    let result
+    try {
+        const userMatch = await sequelize.query(`select username, password from users where username='${user.username}' and password='${user.password}'`,  { type : Sequelize.QueryTypes.SELECT, raw: true})
+        if(userMatch.length>0){
+            result = {msg : 'login success'}
+        }else{
+            result = {error : 'username or password incorrect'}
+        }
+    } catch (error) {
+        result = {error: "error from db", err_msg: error}
+    }
+   
+    return result
+}
+
+export async function signupToStore(newUser){
+    let result
+    try {
+        const match = await sequelize.query(`select  username from users where username = '${newUser.username}'`, { type : Sequelize.QueryTypes.SELECT, raw: true})
+        if(match.length > 0){
+            result = {error : "username already exist"}
+        }else{
+            await sequelize.query(`insert into users (username, password) values ('${newUser.username}', '${newUser.password}')`)
+            // result = {msg : 'login success'}
+            result = await sequelize.query(`select  username, password from users order by id desc limit 1`, { type : Sequelize.QueryTypes.SELECT, raw: true})
+        }
+    } catch (error) {
+        result = {error: "error from db", err_msg: error}
+    }
+    return result
+}

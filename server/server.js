@@ -1,6 +1,13 @@
-import{handleGetNotes, handleCreateNote, handleDeleteNote, handleUpdateNote} from "./handler.js"
+import{handleGetNotes, handleCreateNote, handleDeleteNote, handleUpdateNote, handleLoginReq, handleSignup} from "./handler.js"
 import  express  from "express";
+
+import dotenv from 'dotenv'
+import jwt from 'jsonwebtoken'
+
+dotenv.config()
+
 const app = express();
+
 
 app.listen(4000);
 
@@ -42,5 +49,25 @@ app.put('/note/:id', async function(req, res){
         res.json({error : responseObject})
     }else{
         res.json({ data : responseObject})
+    }
+})
+
+app.post('/login', async function(req, res){
+   const response = await handleLoginReq(req)
+   if(response.msg){
+        const accessToken = jwt.sign(req.body, process.env.JWT_SECRET)
+        res.json( { accessToken : accessToken} )
+   }else{
+        res.json({error : response})
+   }
+})
+
+app.post('/signup', async function(req, res){
+    const response = await handleSignup(req)
+    if(response.error){
+        res.json({error : response})
+    }else{
+        const accessToken = jwt.sign(req.body, process.env.JWT_SECRET)
+        res.json({ data : response, accessToken: accessToken})
     }
 })
