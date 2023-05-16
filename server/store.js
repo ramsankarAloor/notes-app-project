@@ -9,10 +9,10 @@ const sequelize = new Sequelize('notes_app', 'postgres', '5454', {
     port: 5432
 });
 
-export async function getNotesFromStore(){
+export async function getNotesFromStore(username){
     let result
     try {
-        result = await sequelize.query("select  id, note, title, created_at, updated_at from notes", { type : Sequelize.QueryTypes.SELECT, raw: true})
+        result = await sequelize.query(`select  id, note, title, created_at, updated_at from notes where username='${username}'`, { type : Sequelize.QueryTypes.SELECT, raw: true})
     } catch (e) {
         result = {error: "error from db", err_msg: e}
     }
@@ -23,7 +23,7 @@ export async function getNotesFromStore(){
 export async function createNoteToStore(note){
     let result
     try {
-        await sequelize.query(`insert into notes (note, title) values ('${note.body}', '${note.title}')`)
+        await sequelize.query(`insert into notes (note, title, username) values ('${note.body}', '${note.title}', '${note.username}')`)
         result = await sequelize.query("select  id, note, title, created_at, updated_at from notes order by id desc limit 1", { type : Sequelize.QueryTypes.SELECT, raw: true})
     } catch (e) {
         result = {error: "error from db", err_msg: e}
@@ -31,10 +31,10 @@ export async function createNoteToStore(note){
     return result
 }
 
-export async function deleteNoteFromStore(id) {
+export async function deleteNoteFromStore(username, id) {
     let result
     try {
-        const noteToDelete = await sequelize.query(`select id from notes where id=${id}`, { type : Sequelize.QueryTypes.SELECT, raw: true})
+        const noteToDelete = await sequelize.query(`select id from notes where id=${id} and username='${username}'`, { type : Sequelize.QueryTypes.SELECT, raw: true})
         if(noteToDelete.length > 0){
             await sequelize.query(`delete from notes where id =${id}`)
             result = { msg : 'Deletion successful'}
@@ -50,7 +50,7 @@ export async function deleteNoteFromStore(id) {
 export async function updateNoteInStore(id, note) {
     let result
     try {
-        const noteToUpdate = await sequelize.query(`select id from notes where id=${id}`, { type : Sequelize.QueryTypes.SELECT, raw: true})
+        const noteToUpdate = await sequelize.query(`select id from notes where id=${id} and username='${note.username}'`, { type : Sequelize.QueryTypes.SELECT, raw: true})
         if(noteToUpdate.length > 0){
             await sequelize.query(`update notes set note = '${note.body}', title = '${note.title}', updated_at = NOW() where id = ${id}`)
             result =  await sequelize.query(`select id, note, title, created_at, updated_at from notes where id=${id}`, { type : Sequelize.QueryTypes.SELECT, raw: true})

@@ -4,28 +4,32 @@ import { createNote, getNotes, deleteNote, updateNote, verifyUser, signup } from
 
 
 export async function handleGetNotes(req){
-    const notes = await getNotes()
+    const username = req.username
+    const notes = await getNotes(username)
     return notes
 }
 
 export async function handleCreateNote(req){
     const note = {
         body : req.body.body,
-        title : req.body.title
+        title : req.body.title,
+        username : req.username
     }
    return createNote(note)
 } 
 
 export async function handleDeleteNote(req){
     const id = Number(req.params.id)
-    return deleteNote(id)
+    const username = req.username
+    return deleteNote(username, id)
 }
 
 export async function handleUpdateNote(req){
     const id = Number(req.params.id)
     const note = {
         body : req.body.body,
-        title : req.body.title
+        title : req.body.title,
+        username : req.username
     }
     return updateNote(id, note)
 }
