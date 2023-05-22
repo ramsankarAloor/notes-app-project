@@ -12,7 +12,7 @@ const sequelize = new Sequelize('notes_app', 'postgres', '5454', {
 export async function getNotesFromStore(username){
     let result
     try {
-        result = await sequelize.query(`select  id, note, title, created_at, updated_at from notes where username='${username}'`, { type : Sequelize.QueryTypes.SELECT, raw: true})
+        result = await sequelize.query(`select  id, note, title, created_at, updated_at from notes where username='${username}' order by created_at desc`, { type : Sequelize.QueryTypes.SELECT, raw: true})
     } catch (e) {
         result = {error: "error from db", err_msg: e}
     }
@@ -52,7 +52,7 @@ export async function updateNoteInStore(id, note) {
     try {
         const noteToUpdate = await sequelize.query(`select id from notes where id=${id} and username='${note.username}'`, { type : Sequelize.QueryTypes.SELECT, raw: true})
         if(noteToUpdate.length > 0){
-            await sequelize.query(`update notes set note = '${note.body}', title = '${note.title}', updated_at = NOW() where id = ${id}`)
+            const amuru = await sequelize.query(`update notes set note = '${note.note}', title = '${note.title}', updated_at = NOW() where id = ${id}`)
             result =  await sequelize.query(`select id, note, title, created_at, updated_at from notes where id=${id}`, { type : Sequelize.QueryTypes.SELECT, raw: true})
         }else{
             result = { error : 'No such note exist'}
@@ -78,7 +78,6 @@ export async function verifyUserInStore(user){
             result = {error : 'invalid user'}
         }
     } catch (error) {
-        console.log(error)
         result = {error: "error from db", err_msg: error}
     }
    

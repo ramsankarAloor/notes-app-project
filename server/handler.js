@@ -11,7 +11,7 @@ export async function handleGetNotes(req){
 
 export async function handleCreateNote(req){
     const note = {
-        body : req.body.body,
+        body : req.body.note,
         title : req.body.title,
         username : req.username
     }
@@ -27,7 +27,7 @@ export async function handleDeleteNote(req){
 export async function handleUpdateNote(req){
     const id = Number(req.params.id)
     const note = {
-        body : req.body.body,
+        note : req.body.note,
         title : req.body.title,
         username : req.username
     }

@@ -13,7 +13,7 @@ publicRouter.post('/login', async function(req, res){
          const accessToken = jwt.sign(req.body.username, process.env.ACCESS_TOKEN_SECRET)
          res.json( { accessToken : accessToken} )
     }else{
-         res.json({error : response})
+         res.status(400).json({error : response})
     }
  })
 
