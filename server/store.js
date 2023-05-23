@@ -52,7 +52,7 @@ export async function updateNoteInStore(id, note) {
     try {
         const noteToUpdate = await sequelize.query(`select id from notes where id=${id} and username='${note.username}'`, { type : Sequelize.QueryTypes.SELECT, raw: true})
         if(noteToUpdate.length > 0){
-            const amuru = await sequelize.query(`update notes set note = '${note.note}', title = '${note.title}', updated_at = NOW() where id = ${id}`)
+             await sequelize.query(`update notes set note = '${note.note}', title = '${note.title}', updated_at = NOW() where id = ${id}`)
             result =  await sequelize.query(`select id, note, title, created_at, updated_at from notes where id=${id}`, { type : Sequelize.QueryTypes.SELECT, raw: true})
         }else{
             result = { error : 'No such note exist'}

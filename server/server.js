@@ -1,7 +1,6 @@
 import  express  from "express";
 
 import dotenv from 'dotenv'
-import jwt from 'jsonwebtoken'
 import publicRouter from "./publicRouter.js";
 import privateRouter from "./privateRouter.js"
 import cors from 'cors'

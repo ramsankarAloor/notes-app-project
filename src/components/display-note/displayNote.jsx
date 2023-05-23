@@ -21,8 +21,11 @@ function DisplayNote({ notes, setNotes }) {
     setActivePopupIndex(-1);
   }
 
-  async function deleteNote(id){
-	await handleDelete(id)
+  async function deleteNote(id, noteIndex){
+    await handleDelete(id)
+    const updatedNotes = [...notes];
+    updatedNotes.splice(noteIndex, 1);
+    setNotes(updatedNotes);
   }
 
   return (
@@ -56,12 +59,11 @@ function DisplayNote({ notes, setNotes }) {
                 <div
                   className="drop-down-content"
                   onMouseLeave={() => setDropDown(-1)}
-				  onClick={(event)=>{
-					deleteNote(noteObject.id)
-					setDropDown(-1)
-					event.stopPropagation()
-				}}
-                >
+				          onClick={(event)=>{
+                  deleteNote(noteObject.id, index)
+                  setDropDown(-1)
+                  event.stopPropagation()
+				        }}>
                   Delete
                 </div>
               )}

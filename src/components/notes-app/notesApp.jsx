@@ -20,7 +20,7 @@ function NotesApp() {
       setNotes([...notes]);
     }
     toGetNotes();
-  }, [notes]);
+  }, []);
 
   const handleSearchQueryChange = (query) => {
     setSearchQuery(query);
@@ -28,7 +28,7 @@ function NotesApp() {
 
   const createNote = async(title, note) => {
     const newNote = await handleCreate(title, note)
-    const notesAfter = [...notes, newNote.data.data[0]]
+    const notesAfter = [newNote.data.data[0], ...notes]
     setNotes(notesAfter)
     setIsPopupOpen(false)
   }
