@@ -1,19 +1,28 @@
-import React from "react";
+import React, { useRef } from "react";
 import './styles.css'
 
-function NotePopup({notes, activePopupIndex, setActivePopupIndex}) {
+function NotePopup({ onOkClick, note, onCancelClick }) {    
+    const titleRef = useRef();
+    const noteRef = useRef();
 
+    
     return (
         <div className="overlay">
             <div className="popup-note">
-                <div className="popup-titile-div" contentEditable="true" data-placeholder="Title">
-                    <h3>{notes[activePopupIndex].title}</h3>
+                <div ref={titleRef} className="popup-title-div" contentEditable="true" data-placeholder="Title"> 
+                    {note.title}
                 </div>
-                <div className="popup-body-div" contentEditable="true">
-                    <p>{notes[activePopupIndex].body}</p>
+                <div ref={noteRef} className="popup-body-div" contentEditable="true" data-placeholder="Note">
+                    {note.note}
                 </div>
-                <div className="close-button-div">
-                    <button className="close-button" onClick={() => setActivePopupIndex(-1)}>Close</button>
+                <div className="button-div">
+                    <button className="apply-button" onClick={() =>{ 
+                        onOkClick( titleRef.current.innerText,  noteRef.current.innerText)
+                        }}>Apply
+                    </button>
+                    <button className="cancel-button" onClick={onCancelClick}>
+                        Cancel
+                    </button>
                 </div>
             </div>
         </div>

@@ -1,8 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import './styles.css'
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import handleLoginOrSignup from "../../api/loginSignupApi";
 
 function SignupPage() {
+
+    const navigate = useNavigate()
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
+ 
+    const takeUsername = (e) =>{
+     let usernameInput = e.target.value
+     setUsername(usernameInput)
+    }
+ 
+    const takePassword = (e) =>{
+     let passwordInput = e.target.value
+     setPassword(passwordInput)
+    }
+ 
+    const submit =async  () => {
+     await handleLoginOrSignup(username, password, false)
+     navigate('/notes')
+     
+    } 
+ 
 
     return (
         <div className="main-container-for-login">
@@ -12,13 +34,13 @@ function SignupPage() {
                         <h1>Create account</h1>
                     </div>
                     <div className="wrap-input">
-                        <input classname="email-input" type="email" name="email" placeholder="Email" />
+                        <input classname="email-input" type="text" name="username" placeholder="Username"  onChange={e=>takeUsername(e)} />
                     </div>
                     <div className="wrap-input">
-                        <input classname="email-input" type="password" name="password" placeholder="Password" />
+                        <input classname="email-input" type="password" name="password" placeholder="Password" onChange={e=>takePassword(e)}/>
                     </div>
                     <div className="login-button-container">
-                        <button className="login-button">
+                        <button className="login-button" onClick={submit}>
                             SIGNUP
                         </button>
                     </div>
